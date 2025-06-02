@@ -25,7 +25,12 @@ jobs:
 #      - run: CONDA_ENV=$(conda env list --json | jq -r ".envs | .[-1]")
 #      - run: conda activate "${CONDA_ENV}"
       - run: python --version
+      - run: python -m venv venv
+      - run: source venv/bin/activate
 #      - run: # Build and install Executorch
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - run: ls ${{ github.workspace }}
       - run: PYTHON_EXECUTABLE=python  CMAKE_ARGS="-DEXECUTORCH_BUILD_NXP_NEUTRON=ON" .ci/scripts/setup-linux.sh --build-tool "cmake"
 #      - run: # Run pytest
       - run: PYTHON_EXECUTABLE=python bash backends/nxp/run_unittests.sh
